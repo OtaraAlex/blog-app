@@ -16,13 +16,13 @@ export default function Dashboard() {
   }, [location.search]);
 
   return (
-    <div className="">
-      <div className="">
+    <div className="min-h-screen flex flex-col md:flex-row">
+      <div className="md:w-56">
         {/* SIDEBAR */}
         <DashSidebar />
       </div>
       {/* PROFILE */}
-      {/* {tab === "profile" && <DashProfile />} */}
+      {tab === "profile" && <DashProfile />}
     </div>
   );
 }
