@@ -39,18 +39,17 @@ export default function PostPage() {
   useEffect(() => {
     try {
       const fetchRecentPosts = async () => {
-        const res = await fetch(`/api/post/getposts?limit=3`);
+        const res = await fetch(`/api/post/getposts?limit=4`);
         const data = await res.json();
         if (res.ok) {
-          const filteredPosts = data.posts.filter((p) => p.slug !== postSlug);
-          setRecentPosts(filteredPosts);
+          setRecentPosts(data.posts);
         }
       };
       fetchRecentPosts();
     } catch (error) {
       console.log(error.message);
     }
-  }, [postSlug]);
+  }, []);
 
   if (loading)
     return (
@@ -95,7 +94,9 @@ export default function PostPage() {
         <h1 className="text-xl mt-5">Recent articles</h1>
         <div className="grid w-full grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:gap-10">
           {recentPosts &&
-            recentPosts.map((post) => <PostCard key={post._id} post={post} />)}
+            recentPosts
+              .filter((recentPost) => recentPost._id !== post._id)
+              .map((post) => <PostCard key={post._id} post={post} />)}
         </div>
       </div>
     </main>
