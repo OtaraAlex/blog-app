@@ -42,14 +42,15 @@ export default function PostPage() {
         const res = await fetch(`/api/post/getposts?limit=3`);
         const data = await res.json();
         if (res.ok) {
-          setRecentPosts(data.posts);
+          const filteredPosts = data.posts.filter((p) => p.slug !== postSlug);
+          setRecentPosts(filteredPosts);
         }
       };
       fetchRecentPosts();
     } catch (error) {
       console.log(error.message);
     }
-  }, []);
+  }, [postSlug]);
 
   if (loading)
     return (
@@ -63,11 +64,11 @@ export default function PostPage() {
         {post && post.title}
       </h1>
       <Link
-        to={`/search?category=${post && post.category}`}
+        to={`/search?category=${post && post.category._id}`}
         className="self-center mt-5"
       >
         <Button color="gray" pill size="xs">
-          {post && post.category}
+          {post && post.category.name}
         </Button>
       </Link>
       <img
@@ -92,7 +93,7 @@ export default function PostPage() {
 
       <div className="flex flex-col justify-center items-center mb-5">
         <h1 className="text-xl mt-5">Recent articles</h1>
-        <div className="flex flex-wrap gap-5 mt-5 justify-center">
+        <div className="grid w-full grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:gap-10">
           {recentPosts &&
             recentPosts.map((post) => <PostCard key={post._id} post={post} />)}
         </div>

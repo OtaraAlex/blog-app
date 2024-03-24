@@ -43,6 +43,7 @@ export const getposts = async (req, res, next) => {
         ],
       }),
     })
+      .populate('category')
       .sort({ updatedAt: sortDirection })
       .skip(startIndex)
       .limit(limit);
