@@ -162,7 +162,7 @@ export default function CreatePost() {
               setFormData({ ...formData, category: e.target.value })
             }
           >
-            <option disabled value="">Select a category</option>
+            <option value="">Select a category</option>
             {categories.map((category) => (
               <option key={category._id} value={category._id}>
                 {category.name}
