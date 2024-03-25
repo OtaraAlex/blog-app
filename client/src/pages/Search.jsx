@@ -62,17 +62,22 @@ export default function Search() {
       setSidebarData({ ...sidebarData, sort: order });
     }
     if (e.target.id === "category") {
-      const category = e.target.value;
-      setSidebarData({ ...sidebarData, category });
+      setSidebarData({ ...sidebarData, category: e.target.value });
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const urlParams = new URLSearchParams(location.search);
-    urlParams.set("searchTerm", sidebarData.searchTerm);
-    urlParams.set("sort", sidebarData.sort);
-    urlParams.set("category", sidebarData.category);
+    if (sidebarData.searchTerm) {
+      urlParams.set("searchTerm", sidebarData.searchTerm);
+    }
+    if (sidebarData.sort) {
+      urlParams.set("sort", sidebarData.sort);
+    }
+    if (sidebarData.category) {
+      urlParams.set("category", sidebarData.category);
+    }
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
   };
@@ -144,6 +149,7 @@ export default function Search() {
               value={sidebarData.category}
               id="category"
             >
+              <option disabled value="">Select</option>
               {categories.map((category) => (
                 <option key={category._id} value={category._id}>
                   {category.name}
